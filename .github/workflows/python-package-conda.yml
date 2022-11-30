@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4.0.0
       with:
         python-version: 3.10
     - name: Add conda to system path
@@ -32,3 +32,8 @@ jobs:
       run: |
         conda install pytest
         pytest
+      env:
+        BASE_URL: ${{ secrets.BASE_URL }}
+        TEST_STAKEHOLDER: ${{ secrets.TEST_STAKEHOLDER }}
+        TEST_DETECTION_ID: ${{ secrets.TEST_DETECTION_ID }}
+        TEST_HOST_ID: ${{ secrets.TEST_HOST_ID }}
