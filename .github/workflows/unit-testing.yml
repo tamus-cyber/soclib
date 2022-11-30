@@ -3,6 +3,30 @@ name: Python Unit Testing
 on: [push]
 
 jobs:
+  linting:
+    runs-on: ubuntu-latest
+    environment: dev
+    strategy:
+      max-parallel: 5
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10.8
+      uses: actions/setup-python@v4.0.0
+      with:
+        python-version: 3.10.8
+    - name: Install dependencies
+      run: |
+        pip3 install flake8 pylint
+    - name: Lint with flake8 (critical only)
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+    - name: Lint with pytest (verbose)
+      run: |
+        # Use pylint for verbose testing
+        pylint ./vectra/
+
   unit-testing:
     runs-on: ubuntu-latest
     environment: dev
@@ -18,16 +42,8 @@ jobs:
     - name: Install dependencies
       run: |
         pip3 install -r ./requirements.txt
-    - name: Lint with flake8
-      run: |
-        pip3 install flake8
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pip3 install pytest
         pytest
       env:
         BASE_URL: ${{ secrets.BASE_URL }}
@@ -37,3 +53,4 @@ jobs:
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
         AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
         AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+
