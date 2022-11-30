@@ -1,0 +1,115 @@
+{
+    "assigned_date": null,
+    "assigned_to": null,
+    "c_score": 58,
+    "campaign_summaries": [
+        {
+            "duration": 991510.0,
+            "id": 1770402,
+            "last_timestamp": "2022-11-29T05:06:36Z",
+            "name": "132.226.156.127-8",
+            "num_detections": 3,
+            "num_hosts": 7
+        }
+    ],
+    "category": "COMMAND & CONTROL",
+    "certainty": 58,
+    "created_timestamp": "2022-11-29T05:08:39Z",
+    "custom_detection": null,
+    "description": null,
+    "detection": "Hidden HTTPS Tunnel",
+    "detection_category": "COMMAND & CONTROL",
+    "detection_type": "Hidden HTTPS Tunnel",
+    "detection_url": "https://tamucc.soc.tamus.edu/api/v2.2/detections/438882",
+    "filtered_by_ai": false,
+    "filtered_by_rule": false,
+    "filtered_by_user": false,
+    "first_timestamp": "2022-11-28T18:58:13Z",
+    "grouped_details": [
+        {
+            "bytes_received": 403325,
+            "bytes_sent": 4981,
+            "dst_ips": [
+                "132.226.156.127"
+            ],
+            "dst_ports": [
+                17472
+            ],
+            "external_target": {
+                "ip": "132.226.156.127",
+                "name": ""
+            },
+            "first_timestamp": "2022-11-28T18:58:13Z",
+            "ja3_hashes": [
+                "783944d4707d3367171275a0eab9e943"
+            ],
+            "ja3s_hashes": [
+                "08e34f9d67c005ed5b6ab621b7e8088e"
+            ],
+            "last_timestamp": "2022-11-29T05:06:36Z",
+            "num_sessions": 2382,
+            "sessions": [
+                {
+                    "app_protocol": "https",
+                    "bytes_received": 403325,
+                    "bytes_sent": 4981,
+                    "dst_geo": null,
+                    "dst_geo_lat": null,
+                    "dst_geo_lon": null,
+                    "dst_ip": "132.226.156.127",
+                    "dst_port": 17472,
+                    "first_timestamp": "2022-11-28T18:58:13Z",
+                    "last_timestamp": "2022-11-29T05:06:36Z",
+                    "protocol": "tcp",
+                    "tunnel_type": "Multiple short TCP sessions"
+                }
+            ],
+            "target_domains": [
+                ""
+            ]
+        }
+    ],
+    "groups": [],
+    "id": 438882,
+    "is_custom_model": false,
+    "is_marked_custom": false,
+    "is_targeting_key_asset": false,
+    "is_triaged": false,
+    "last_timestamp": "2022-11-29T05:06:36Z",
+    "note": null,
+    "note_modified_by": null,
+    "note_modified_timestamp": null,
+    "notes": [],
+    "sensor": "FPnkBrl4",
+    "sensor_name": "Vectra.tamucc.edu",
+    "src_account": null,
+    "src_host": {
+        "certainty": 41,
+        "groups": [],
+        "id": 903844,
+        "ip": "10.4.91.70",
+        "is_key_asset": false,
+        "name": "IP-10.4.91.70",
+        "threat": 34,
+        "url": "https://tamucc.soc.tamus.edu/api/v2.2/hosts/903844"
+    },
+    "src_ip": "10.4.91.70",
+    "state": "active",
+    "summary": {
+        "bytes_received": 403325,
+        "bytes_sent": 4981,
+        "description": "This host communicated with an external destination using HTTPS where another protocol was running over the top of the session. The host appeared to be under the control of the external destination.",
+        "dst_ips": [
+            "132.226.156.127"
+        ],
+        "num_sessions": 2382
+    },
+    "t_score": 11,
+    "tags": [
+        "SYSTEM-248756"
+    ],
+    "targets_key_asset": false,
+    "threat": 11,
+    "triage_rule_id": null,
+    "url": "https://tamucc.soc.tamus.edu/api/v2.2/detections/438882"
+}
