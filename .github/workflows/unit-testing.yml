@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip3 install flake8 pylint
-        pip3 install ./requirements.txt
+        pip3 install -r ./requirements.txt
     - name: Lint with flake8 (critical only)
       run: |
         # stop the build if there are Python syntax errors or undefined names
