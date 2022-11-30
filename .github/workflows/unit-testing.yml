@@ -1,4 +1,4 @@
-name: Python Package using Conda
+name: Python Unit Testing
 
 on: [push]
 
@@ -33,3 +33,6 @@ jobs:
         TEST_STAKEHOLDER: ${{ secrets.TEST_STAKEHOLDER }}
         TEST_DETECTION_ID: ${{ secrets.TEST_DETECTION_ID }}
         TEST_HOST_ID: ${{ secrets.TEST_HOST_ID }}
+        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
