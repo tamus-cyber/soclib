@@ -20,3 +20,9 @@ Things we will leave as separate repos
 
 - Case Management Library (Jira, ELK, etc.)
 - Prometheus exporters
+
+## Testing
+
+soclib is using Pytest to handle unit testing.
+
+See [TESTING.md](./TESTING.md)

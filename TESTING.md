@@ -32,12 +32,15 @@ You should expect to see the following output:
 platform ...
 rootdir: ...
 plugins: ...
-collected 2 items                                                                      
+collected 5 items                                                                      
 
-tests/detection_test.py .                                                        [ 50%]
-tests/host_test.py .                                                             [100%]
+tests/timeout_tests/timeout_test.py .                                            [ 20%]
+tests/vectra_tests/azure_auth_test.py .                                          [ 40%]
+tests/vectra_tests/detection_test.py .                                           [ 60%]
+tests/vectra_tests/host_test.py .                                                [ 80%]
+tests/vectra_tests/vectra_api_auth_test.py .                                     [100%]
 
-================================== X passed in X.XXs ===================================
+================================== 5 passed in X.XXs ===================================
 
 ```
 
@@ -47,3 +50,4 @@ tests/host_test.py .                                                            
 - Vectra session creation
 - Get a detection from Vectra
 - Get host info from Vectra
+- Use TimeoutHTTPAdapter
