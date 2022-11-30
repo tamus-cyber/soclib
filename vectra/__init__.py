@@ -146,9 +146,9 @@ class VectraClient:
             threat_feed (dict): Threat feed to add
                 Example:
                 {
-                    "name": "SOC-INT-Threat-Feed-1", 
-                    "certainty": "High", 
-                    "indicator_type": "Watchlist", 
+                    "name": "SOC-INT-Threat-Feed-1",
+                    "certainty": "High",
+                    "indicator_type": "Watchlist",
                     "category": "cnc"
                 }
         Returns:
