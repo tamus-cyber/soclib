@@ -28,8 +28,38 @@ class VectraClient:
         result = credential.get_token(f'{base_url}/.default')
         session = requests.Session()
         session.headers['Authorization'] = f'Bearer {result.token}'
+        session.hooks['response'].append(self._reauth_on_401)
         session.mount('https://', self.http_adapter)
         self.session = session
+
+    def _reauth_on_401(self, response: requests.Response, *args, **kwargs):  # pylint: disable=unused-argument
+        """ Reauth hook for requests
+        Args:
+            response (requests.Response): Response object
+        Returns:
+            requests.Response: Response object
+        """
+        if response.status_code == 401:  # 401 is the status code for unauthorized
+            result = self.credential.get_token(
+                f'{self.base_url}/.default')  # Get a new token
+            # Update the token in the session
+            self.session.headers['Authorization'] = f'Bearer {result.token}'
+
+            # grab the request that failed, update the token
+            request = response.request
+            request.headers['Authorization'] = f'Bearer {result.token}'
+
+            # remove the reauth hook to prevent infinite loop if auth fails again
+            # handle cases where the hooks['response'] is a single hook or a list of hooks
+            if isinstance(self.session.hooks['response'], list):
+                self.session.hooks['response'].remove(self._reauth_on_401)
+            else:
+                # if there is only one hook, it has to be this on. Set it to None
+                self.session.hooks['response'] = None
+
+            # retry the request
+            response = self.session.send(request)
+        return response
 
     def get_detection(self, stakeholder: str, detection_id: str):
         """ Get detection information from Vectra for a given detection ID
