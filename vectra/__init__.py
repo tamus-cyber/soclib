@@ -51,11 +51,11 @@ class VectraClient:
 
             # remove the reauth hook to prevent infinite loop if auth fails again
             # handle cases where the hooks['response'] is a single hook or a list of hooks
-            if isinstance(self.session.hooks['response'], list):
-                self.session.hooks['response'].remove(self._reauth_on_401)
+            if isinstance(request.hooks['response'], list):
+                request.hooks['response'].remove(self._reauth_on_401)
             else:
                 # if there is only one hook, it has to be this on. Set it to None
-                self.session.hooks['response'] = None
+                request.hooks['response'] = None
 
             # retry the request
             response = self.session.send(request)
