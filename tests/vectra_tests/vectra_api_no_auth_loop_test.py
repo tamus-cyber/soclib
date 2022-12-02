@@ -52,11 +52,3 @@ class TestVectraAPINoReauthLoop:
         token_calls = vectra_client.credential.token_calls
         assert recieved_401_error
         assert token_calls == 2
-
-
-
-# tyler wants shitty code to test the linting protections in github
-for i in range(50):
-    print("hello tyler")
-
-

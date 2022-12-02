@@ -33,7 +33,7 @@ class VectraClient:
         session.mount('https://', self.http_adapter)
         self.session = session
 
-    def _raise_for_status(self, response, *args, **kwargs):  # pylint: disable=unused-argument, no-self-use
+    def _raise_for_status(self, response, *args, **kwargs):  
         """ Raise an exception if the response status is not 200
         Args:
             response (requests.Response): Response object
