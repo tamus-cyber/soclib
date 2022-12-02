@@ -28,9 +28,20 @@ class VectraClient:
         result = credential.get_token(f'{base_url}/.default')
         session = requests.Session()
         session.headers['Authorization'] = f'Bearer {result.token}'
-        session.hooks['response'].append(self._reauth_on_401)
+        # Add the reauth hook and the raise_for_status hook
+        session.hooks['response'].extend([self._reauth_on_401, self._raise_for_status])
         session.mount('https://', self.http_adapter)
         self.session = session
+
+    def _raise_for_status(self, response, *args, **kwargs):  # pylint: disable=unused-argument, no-self-use
+        """ Raise an exception if the response status is not 200
+        Args:
+            response (requests.Response): Response object
+        """
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            raise err
 
     def _reauth_on_401(self, response: requests.Response, *args, **kwargs):  # pylint: disable=unused-argument
         """ Reauth hook for requests
