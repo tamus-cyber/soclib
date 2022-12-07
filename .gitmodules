@@ -1,3 +1,3 @@
-[submodule "soc_tools"]
-	path = soc_tools
-	url = ../soc-tools
+[submodule "elastic_vectra_lib"]
+	path = elastic_vectra_lib
+	url = ../elastic-vectra-lib
