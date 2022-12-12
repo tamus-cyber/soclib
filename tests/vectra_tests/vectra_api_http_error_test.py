@@ -15,7 +15,7 @@ class TestVectraAPIHTTPError:
 
     def test_vectra_api_reauth(self):
         """ Test a 404 exception being raised """
-        base_url = os.getenv('BASE_URL')
+        base_url = os.getenv('VECTRA_API_URL')
 
         # Do authentication
         vectra_client = VectraClient(base_url, DefaultAzureCredential())

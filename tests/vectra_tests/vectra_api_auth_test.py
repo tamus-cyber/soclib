@@ -14,6 +14,6 @@ class TestVectraAPI:
 
     def test_vectra_api(self):
         """ Test the get_host method """
-        base_url = os.getenv('BASE_URL')
+        base_url = os.getenv('VECTRA_API_URL')
         vectra_client = VectraClient(base_url, DefaultAzureCredential())
         assert vectra_client # nosec B101

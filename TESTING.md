@@ -7,7 +7,7 @@ soclib is using Pytest to handle unit testing.
 Before any unit testing, you must setup your environment variables. This can be done in a `.env` file in the root directory of soclib or it can be done using your shell/container environment variables. Here is the environment variable template:
 
 ```env
-BASE_URL="https://[azure-site-here].azurewebsites.net"
+VECTRA_API_URL="https://[azure-site-here].azurewebsites.net"
 TEST_STAKEHOLDER=
 TEST_DETECTION_ID=
 TEST_HOST_ID=

@@ -34,7 +34,7 @@ class TestVectraAPINoReauthLoop:
 
     def test_vectra_api_no_reauth_loop(self):
         """ Test the 401 reauth functionality """
-        base_url = os.getenv('BASE_URL')
+        base_url = os.getenv('VECTRA_API_URL')
 
         # initialize the client with a credential that will never work
         vectra_client = VectraClient(base_url, BadCredential())

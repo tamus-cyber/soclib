@@ -14,7 +14,7 @@ class TestHost:
 
     def test_get_host(self):
         """ Test the get_host method """
-        base_url = os.getenv('BASE_URL')
+        base_url = os.getenv('VECTRA_API_URL')
         vectra_client = VectraClient(base_url, DefaultAzureCredential())
         stakeholder = os.getenv('TEST_STAKEHOLDER')
         host_id = os.getenv('TEST_HOST_ID')

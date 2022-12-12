@@ -14,7 +14,7 @@ class TestVectraAPIReauth:
 
     def test_vectra_api_reauth(self):
         """ Test the 401 reauth functionality """
-        base_url = os.getenv('BASE_URL')
+        base_url = os.getenv('VECTRA_API_URL')
 
         # Do good auth
         vectra_client = VectraClient(base_url, DefaultAzureCredential())

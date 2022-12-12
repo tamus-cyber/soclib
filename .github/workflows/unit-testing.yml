@@ -46,7 +46,7 @@ jobs:
       run: |
         pytest
       env:
-        BASE_URL: ${{ secrets.BASE_URL }}
+        VECTRA_API_URL: ${{ secrets.VECTRA_API_URL }}
         TEST_STAKEHOLDER: ${{ secrets.TEST_STAKEHOLDER }}
         TEST_DETECTION_ID: ${{ secrets.TEST_DETECTION_ID }}
         TEST_HOST_ID: ${{ secrets.TEST_HOST_ID }}
