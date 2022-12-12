@@ -1,6 +1,9 @@
 name: Python Unit Testing
 
-on: [push]
+on:
+  push:
+    branches:
+      - dev
 
 jobs:
   linting:
