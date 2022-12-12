@@ -6,8 +6,6 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     environment: dev
-    strategy:
-      max-parallel: 5
 
     steps:
     - uses: actions/checkout@v3
@@ -30,8 +28,6 @@ jobs:
   unit-testing:
     runs-on: ubuntu-latest
     environment: dev
-    strategy:
-      max-parallel: 5
 
     steps:
     - uses: actions/checkout@v3
