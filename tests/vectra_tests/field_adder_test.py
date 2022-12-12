@@ -14,7 +14,7 @@ class TestFieldAdd:
 
     def test_field_add(self):
         """ Test the get_detection method """
-        base_url = os.getenv('BASE_URL')
+        base_url = os.getenv('VECTRA_API_URL')
         vectra_client = VectraClient(base_url, DefaultAzureCredential())
         stakeholder = os.getenv('TEST_STAKEHOLDER')
         detection_id = os.getenv('TEST_DETECTION_ID')
