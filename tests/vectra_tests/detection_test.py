@@ -3,7 +3,7 @@
 import sys
 import os
 from azure.identity import DefaultAzureCredential
-sys.path.append('..') # Import parent directory
+sys.path.append('../..') # Import parent directory
 from dotenv import load_dotenv
 from soclib.vectra import VectraClient
 
