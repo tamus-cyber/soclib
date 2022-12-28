@@ -26,7 +26,7 @@ jobs:
     - name: Lint with pylint (verbose)
       run: |
         # Use pylint for verbose testing
-        pylint ./vectra/
+        pylint ./vectra/ ./reputation/
 
   unit-testing:
     runs-on: ubuntu-latest

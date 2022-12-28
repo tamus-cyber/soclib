@@ -1,9 +1,10 @@
-"""Main file for Vectra API Python wrapper."""
+# pylint: disable=broad-except, invalid-name, no-self-use
+"""Main file for Umbrella API Python wrapper."""
 
+import socket
 from urllib.request import Request
 from loguru import logger
 import requests
-import socket
 
 UMBRELLA_URL = "https://investigate.api.umbrella.com"
 
@@ -12,17 +13,7 @@ class UmbrellaClient:
 
     def __init__(self, api_key: str):
         self.api_key = api_key
-        self.umbrella_session = self.get_umbrella_session(self.api_key)
-
-    def get_umbrella_session(self, api_key: str) -> requests.sessions.Session:
-        # Create session
-        session = requests.Session()
-        session.headers.update({
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
-        })
-
-        return session
+        self.umbrella_session = get_umbrella_session(self.api_key)
 
     def get_domain_category(self, domain: str) -> dict | None:
         """
@@ -57,8 +48,7 @@ class UmbrellaClient:
             status = status_map[status]
 
             return {"status": status, "categories": categories}
-        else:
-            return {"status": 0, "categories": []}
+        return {"status": 0, "categories": []}
 
     def resolve_domain(self, domain: str) -> str | None:
         """
@@ -96,5 +86,21 @@ class UmbrellaClient:
         response = self.umbrella_session.get(url)
         if response.status_code == 200:
             return response.json()
-        else:
-            return None
+        return None
+
+def get_umbrella_session(api_key: str) -> requests.sessions.Session:
+    """ Create a session for interacting with the Umbrella API.
+
+    Args:
+        api_key (str): The API key to use for the session.
+
+    Returns:
+        requests.sessions.Session: The session to use for interacting with the Umbrella API.
+    """
+    session = requests.Session()
+    session.headers.update({
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    })
+
+    return session
