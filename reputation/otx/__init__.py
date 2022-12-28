@@ -1,7 +1,5 @@
 """Main file for AlienVault OTX API Python wrapper."""
 
-from urllib.request import Request
-from loguru import logger
 import requests
 
 OTX_URL = "https://otx.alienvault.com/api/v1/indicators"

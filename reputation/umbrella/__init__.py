@@ -2,8 +2,6 @@
 """Main file for Umbrella API Python wrapper."""
 
 import socket
-from urllib.request import Request
-from loguru import logger
 import requests
 
 UMBRELLA_URL = "https://investigate.api.umbrella.com"
@@ -60,11 +58,7 @@ class UmbrellaClient:
         Returns
             str: The IP address of the domain.
         """
-        try:
-            ip = socket.gethostbyname(domain)
-        except Exception as err:
-            logger.error(f'Failed to resolve domain: {err}')
-            return None
+        ip = socket.gethostbyname(domain)
         return ip
 
     def get_asn(self, ip: str) -> dict | None:
