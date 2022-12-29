@@ -12,7 +12,7 @@ class AlienVaultOTXClient:
         self.api_key = api_key
         self.otx_session = get_otx_session(self.api_key)
 
-    def get_whitelisted(self, domain: str) -> bool | None:
+    def get_whitelisted(self, domain: str) -> bool:
         """
         Check if a domain is on the OTX whitelist.
 
@@ -29,7 +29,7 @@ class AlienVaultOTXClient:
             if len(response.json()["validation"]) > 0:
                 is_whitelisted = True
             return is_whitelisted
-        return None
+        return False
 
     def get_official_pulses(self, domain: str) -> list:
         """
