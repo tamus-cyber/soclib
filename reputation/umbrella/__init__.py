@@ -13,7 +13,7 @@ class UmbrellaClient:
         self.api_key = api_key
         self.umbrella_session = get_umbrella_session(self.api_key)
 
-    def get_domain_category(self, domain: str) -> dict | None:
+    def get_domain_category(self, domain: str) -> dict:
         """
         Get the category of a domain.
 
@@ -48,7 +48,7 @@ class UmbrellaClient:
             return {"status": status, "categories": categories}
         return {"status": 0, "categories": []}
 
-    def resolve_domain(self, domain: str) -> str | None:
+    def resolve_domain(self, domain: str) -> str:
         """
         Resolve a domain to an IP address.
 
@@ -61,7 +61,7 @@ class UmbrellaClient:
         ip = socket.gethostbyname(domain)
         return ip
 
-    def get_asn(self, ip: str) -> dict | None:
+    def get_asn(self, ip: str) -> dict:
         """
         Get the ASN of an IP address
 
