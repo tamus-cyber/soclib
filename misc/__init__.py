@@ -3,20 +3,20 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-def get_website_description(domain: str) -> str:
+def get_website_description(domain: str, timeout=10) -> str:
     """
     Get the description of a website.
 
     Parameters:
     - domain (str): The domain of the website.
+    - timeout (int, optional): The timeout for the request. Defaults to 10.
 
     Returns:
     - str: The description of the website.
     """
 
-    # Make a request to the website
-    response = requests.get(f'https://{domain}')
-
+    # Make a request to the website (with a 10 second timeout)
+    response = requests.get(f'https://{domain}', timeout=timeout)
     # Parse the HTML content of the website
     soup = BeautifulSoup(response.text, 'html.parser')
 
