@@ -1,3 +1,4 @@
+# pylint: disable-all
 #!/usr/bin/env python3
 from ipaddress import ip_address
 from rich.pretty import pprint
