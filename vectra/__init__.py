@@ -6,7 +6,6 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from azure.identity import EnvironmentCredential, DefaultAzureCredential
-from ..custom_errors import DetectionNotFound
 
 
 class VectraClient:
@@ -35,7 +34,7 @@ class VectraClient:
         session.mount('https://', self.http_adapter)
         self.session = session
 
-    def _raise_for_status(self, response: requests.Response, *args, **kwargs):  # pylint: disable=unused-argument, no-self-use
+    def _raise_for_status(self, response, *args, **kwargs):  # pylint: disable=unused-argument, no-self-use
         """ Raise an exception if the response status is not 200
         Args:
             response (requests.Response): Response object
@@ -43,10 +42,7 @@ class VectraClient:
         try:
             response.raise_for_status()
         except requests.exceptions.HTTPError as err:
-            if err.response.status_code == 404: # pylint: disable=no-else-raise
-                raise DetectionNotFound from err
-            else:
-                raise err
+            raise err
 
     def _reauth_on_401(self, response: requests.Response, *args, **kwargs):  # pylint: disable=unused-argument
         """ Reauth hook for requests
