@@ -1,5 +1,32 @@
 """Miscellaneous functions for soclib"""
 import os
+import requests
+from bs4 import BeautifulSoup
+
+def get_website_description(domain: str) -> str:
+    """
+    Get the description of a website.
+
+    Parameters:
+    - domain (str): The domain of the website.
+
+    Returns:
+    - str: The description of the website.
+    """
+
+    # Make a request to the website
+    response = requests.get(f'https://{domain}')
+
+    # Parse the HTML content of the website
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # Find the first meta tag with the name "description"
+    description_tag = soup.find('meta', {'name': 'description'})
+
+    # Extract the content attribute of the description tag
+    description = description_tag['content'] if description_tag else 'No description found'
+
+    return description
 
 def linux_session_check():
     """Check if we're on Wayland or X11 and print a message if we're not
