@@ -3,7 +3,7 @@
 import os
 import ipaddress
 import pylightxl as xl
-from stakeholder.soc_db_utils import ip_lookup_db
+from soclib.stakeholder.soc_db_utils import ip_lookup_db
 from rich.progress import Progress
 import re
 
