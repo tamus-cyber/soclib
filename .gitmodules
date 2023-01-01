@@ -1,3 +1,6 @@
 [submodule "elastic_vectra_lib"]
 	path = elastic_vectra_lib
 	url = ../elastic-vectra-lib
+[submodule "stakeholder/soc_db_utils"]
+	path = stakeholder/soc_db_utils
+	url = ../soc-db-utils
