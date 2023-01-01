@@ -17,7 +17,7 @@ def get_screenshot(url: str, timeout=10) -> str:
     # Initialize the webdriver in headless mode
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
-    driver = webdriver.Firefox(options=options)
+    driver = webdriver.Firefox(options=options, service_log_path='/dev/null')
 
     # Open the website and wait for it to load or timeout
     driver.set_page_load_timeout(timeout)
