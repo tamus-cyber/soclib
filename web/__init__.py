@@ -1,7 +1,6 @@
 """Web interfacing tools for soclib"""
 
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
 
 def get_screenshot(url: str, timeout=10) -> str:
     """Get a screenshot of a website using Selenium and return it as a base64 encoded image
@@ -21,11 +20,7 @@ def get_screenshot(url: str, timeout=10) -> str:
 
     # Open the website and wait for it to load or timeout
     driver.set_page_load_timeout(timeout)
-    try:
-        driver.get(url)
-    except TimeoutException:
-        driver.quit()
-        return ""
+    driver.get(url)
 
     # Take a screenshot and return base64 encoded image
     screenshot =  driver.get_screenshot_as_base64()
