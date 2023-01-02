@@ -96,3 +96,41 @@ def enrich(indicator: str, otx_session: AlienVaultOTXClient, umbrella_session: U
             data["website_description"] = {"error": f"Unable to get website description"}
     print("Done") if verbose else None
     return data
+
+
+def _quick_links_url(indicator: str) -> dict:
+    quick_links = {
+        "VirusTotal": f"https://www.virustotal.com/gui/search/{indicator}",
+        "AlienVault OTX": f"https://otx.alienvault.com/indicator/domain/{indicator}",
+        "Umbrella": f"https://dashboard.umbrella.com/o/2465322/#/investigate/domain-view/name/{indicator}/view",
+        "Shodan": f"https://www.shodan.io/search?query={indicator}"
+    }
+    return quick_links
+
+
+def _quick_links_ip(indicator: str) -> dict:
+    quick_links = {
+        "VirusTotal": f"https://www.virustotal.com/gui/search/{indicator}",
+        "AlienVault OTX": f"https://otx.alienvault.com/indicator/ip/{indicator}",
+        "Umbrella": f"https://dashboard.umbrella.com/o/2465322/#/investigate/ip-view/{indicator}",
+        "IPalyzer": f"https://ipalyzer.com/{indicator}",
+        "Shodan": f"https://www.shodan.io/search?query={indicator}"
+    }
+    return quick_links
+
+
+def get_quick_links(indicator: str) -> dict:
+    """Get quick links for an indicator (e.g. VirusTotal, OTX, etc.)
+
+    Args:
+        indicator (str): The indicator to get quick links for
+
+    Returns:
+        dict: The quick links
+    """
+
+    try:
+        ip_address(indicator)
+        return _quick_links_ip(indicator)
+    except:
+        return _quick_links_url(indicator)
