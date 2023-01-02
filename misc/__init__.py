@@ -2,6 +2,10 @@
 import os
 import requests
 from bs4 import BeautifulSoup
+from lxml import html
+from concurrent.futures import ThreadPoolExecutor, as_completed
+# Ignore SSL warnings
+requests.packages.urllib3.disable_warnings()
 
 def get_website_description(domain: str, timeout=10) -> str:
     """
@@ -58,5 +62,59 @@ def linux_session_check():
                 to find a way to use copy/paste functionality manually.")
             return
 
-if __name__ == "__main__":
-    print("This script is meant to be imported as a module")
+
+def _extract_data_from_url(link):
+    page = requests.get(link, verify=False) # nosec
+    tree = html.fromstring(page.content)
+    # Find email and add to list
+    # Example: href="mailto:
+    email = tree.xpath('//a[contains(@href, "mailto:")]/@href')
+    # Find name and add to list
+    # Example: <div class="result-listing">
+    #          <h2>Harrison, Tyler</h2>
+    name = tree.xpath('//div[@class="result-listing"]/h2/text()')
+    result = {"name": "", "email": "", "link": link}
+    if email:
+        try:
+            result["email"] = email[0].split(":")[1]
+        except IndexError:
+            result["email"] = email[0]
+        except:
+            result["email"] = "(No email found)"
+    else:
+        result["email"] = "(No email found)"
+    if name:
+        result["name"] = name[0]
+    if result["name"] or result["email"]:
+        return result
+    else:
+        return None
+
+
+def search_directory(search_term):
+    search_term = search_term.lower()
+    search_term = search_term.replace(" ", "+")
+    url = "https://directory.tamu.edu/?branch=people&cn=" + search_term
+
+    # Get HTML from URL
+    page = requests.get(url, verify=False) # nosec
+    tree = html.fromstring(page.content)
+
+    # Find all anchor links with the href containing /people/
+    raw_links = tree.xpath('//a[contains(@href, "/people/")]/@href')
+    links = set(raw_links)
+
+    # Append https://directory.tamu.edu/ to the beginning of each link
+    links = set()
+    for link in raw_links:
+        links.add("https://directory.tamu.edu" + link)
+
+    # Get HTML from each link
+    results = []
+    threads = []
+    with ThreadPoolExecutor(max_workers=50) as executor:
+        for link in links:
+            threads.append(executor.submit(_extract_data_from_url, link))
+        for task in as_completed(threads):
+            results.append(task.result())
+    return results
