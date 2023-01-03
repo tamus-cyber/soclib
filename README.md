@@ -1,3 +1,5 @@
+<img src="./soclib_logo.png" width=128/>
+
 🚀 soclib 🚀
 ========================
 
