@@ -103,7 +103,9 @@ def _quick_links_url(indicator: str) -> dict:
         "VirusTotal": f"https://www.virustotal.com/gui/search/{indicator}",
         "AlienVault OTX": f"https://otx.alienvault.com/indicator/domain/{indicator}",
         "Umbrella": f"https://dashboard.umbrella.com/o/2465322/#/investigate/domain-view/name/{indicator}/view",
-        "Shodan": f"https://www.shodan.io/search?query={indicator}"
+        "Shodan": f"https://www.shodan.io/search?query={indicator}",
+        "Twitter": f"https://twitter.com/search?q={indicator}",
+        "Google": f"https://www.google.com/search?q={indicator}"
     }
     return quick_links
 
@@ -114,7 +116,9 @@ def _quick_links_ip(indicator: str) -> dict:
         "AlienVault OTX": f"https://otx.alienvault.com/indicator/ip/{indicator}",
         "Umbrella": f"https://dashboard.umbrella.com/o/2465322/#/investigate/ip-view/{indicator}",
         "IPalyzer": f"https://ipalyzer.com/{indicator}",
-        "Shodan": f"https://www.shodan.io/search?query={indicator}"
+        "Shodan": f"https://www.shodan.io/search?query={indicator}",
+        "Twitter": f"https://twitter.com/search?q={indicator}",
+        "Google": f"https://www.google.com/search?q={indicator}"
     }
     return quick_links
 
