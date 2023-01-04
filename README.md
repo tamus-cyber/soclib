@@ -1,28 +1,48 @@
-# soclib
+<img src="./soclib_logo.png" width=128/>
 
-Collection of libraries used in various SOC applications
+🚀 soclib 🚀
+========================
 
-## Libraries
+This collection of libraries is designed to be used in various SOC applications. We've included most of our common tools and services to make your job easier and more efficient.
 
-Libraries included in this bundle
+Here's a list of what you'll find inside:
 
-- Reputation services
-  - Alienvault OTX
-  - Cisco Umbrella
-- Vectra API libraries
-- SOC Tools
-  - SOC SQL database interface
-  - TAMU directory search
+🔍 Reputation Services
+----------------------
 
-## Out-of-scope
+- Alienvault OTX
+- Cisco Umbrella
 
-Things we will leave as separate repos
+![Vectra logo](./vectra_logo.png) 
+Vectra API libraries
+--------------------
 
-- Case Management Library (Jira, ELK, etc.)
-- Prometheus exporters
+- Vectra client for [vectra-api](https://github.com/tamus-cyber/vectra-api)
+- ElasticVectra for sending logs to ELK
 
-## Testing
+🔧 SOC Tools
+------------
 
-soclib is using Pytest to handle unit testing.
+- IOC enrichment
+- URL defanger
+- Stakeholder IP lookup
+- TAMU directory search
+- Quick links generator
+- IP geolocation lookup
 
-See [TESTING.md](./TESTING.md)
+🌐 Web Services
+---------------
+
+- Website screenshot grabber
+- Website description lookup
+
+🤷‍♂️ Miscellaneous
+----------------
+
+- Linux display session checker
+
+We've also made sure to leave out some tools that might be better suited for separate repos, like case management libraries (Jira, ELK, etc.) and Prometheus exporters.
+
+To ensure the quality of our libraries, we use Pytest for unit testing. Be sure to check out our [TESTING.md](./TESTING.md) for more information.
+
+Thanks for choosing soclib! We hope it makes your SOC work a little bit easier. 💪
