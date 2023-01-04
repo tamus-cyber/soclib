@@ -7,6 +7,8 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from azure.identity import EnvironmentCredential, DefaultAzureCredential
 
+from loguru import logger
+logger.disable(__name__)
 
 class VectraClient:
     """ Client for interacting with SOC Vectra API
@@ -30,48 +32,61 @@ class VectraClient:
         session = requests.Session()
         session.headers['Authorization'] = f'Bearer {result.token}'
         # Add the reauth hook and the raise_for_status hook
-        session.hooks['response'].extend([self._reauth_on_401, self._raise_for_status])
         session.mount('https://', self.http_adapter)
         self.session = session
 
-    def _raise_for_status(self, response, *args, **kwargs):  # pylint: disable=unused-argument, no-self-use
-        """ Raise an exception if the response status is not 200
+    def _refresh_session_token(self):
+        """ Refresh the token in the session """
+        result = self.credential.get_token(f'{self.base_url}/.default')
+        self.session.headers['Authorization'] = f'Bearer {result.token}'
+
+    def _request(self, method: str, url: str, **kwargs):
+        """Wrapper for HTTP requests to handle exceptions and logging
         Args:
-            response (requests.Response): Response object
+            method (str): HTTP method to use
+            url (str): URL to make request to
+            **kwargs: Additional arguments to pass to requests
         """
         try:
+            response = self.session.request(method, url, **kwargs)
+
+            # If we get a 401, try to update the token and retry the request
+            if response.status_code == 401:
+                logger.warning('HTTP 401 response. Attempting to get new token...')
+                self._refresh_session_token()
+                response = self.session.request(method, url, **kwargs)
+
             response.raise_for_status()
+            return response
         except requests.exceptions.HTTPError as err:
+            # If we get another 401, reauth failed, don't retry
+            if response.status_code == 401:
+                logger.error('New JWT invalid. Unable to get new, valid token.')
+                raise err
+            logger.warning(f'Bad response (HTTP {err.response.status_code}) from Vectra API: {err.response.text}')
+            raise err
+        except requests.exceptions.ConnectionError as err:
+            logger.warning(f'Unable to connect to Vectra API: {err}')
+            raise err
+        except requests.exceptions.ReadTimeout as err:
+            logger.warning(f'Read timeout for Vectra API: {err}')
             raise err
 
-    def _reauth_on_401(self, response: requests.Response, *args, **kwargs):  # pylint: disable=unused-argument
-        """ Reauth hook for requests
-        Args:
-            response (requests.Response): Response object
-        Returns:
-            requests.Response: Response object
-        """
-        if response.status_code == 401:  # 401 is the status code for unauthorized
-            result = self.credential.get_token(
-                f'{self.base_url}/.default')  # Get a new token
-            # Update the token in the session
-            self.session.headers['Authorization'] = f'Bearer {result.token}'
+    def _get(self, url, **kwargs):
+        """ Wrapper for GET requests """
+        return self._request('GET', url, **kwargs)
 
-            # grab the request that failed, update the token
-            request = response.request
-            request.headers['Authorization'] = f'Bearer {result.token}'
+    def _post(self, url, **kwargs):
+        """ Wrapper for POST requests """
+        return self._request('POST', url, **kwargs)
 
-            # remove the reauth hook to prevent infinite loop if auth fails again
-            # handle cases where the hooks['response'] is a single hook or a list of hooks
-            if isinstance(request.hooks['response'], list):
-                request.hooks['response'].remove(self._reauth_on_401)
-            else:
-                # if there is only one hook, it has to be this on. Set it to None
-                request.hooks['response'] = None
+    def _put(self, url, **kwargs):
+        """ Wrapper for PUT requests """
+        return self._request('PUT', url, **kwargs)
 
-            # retry the request
-            response = self.session.send(request)
-        return response
+    def _delete(self, url, **kwargs):
+        """ Wrapper for DELETE requests """
+        return self._request('DELETE', url, **kwargs)
 
     def get_detection(self, stakeholder: str, detection_id: str):
         """ Get detection information from Vectra for a given detection ID
@@ -84,8 +99,9 @@ class VectraClient:
         # Fetch the detection information from Vectra API
         # Init an empty dictionary for when we handle account based detections in the future.
         detection_info = {}
-        detection_info = self.session.get(
-            f'{self.base_url}/detection/{stakeholder}/{detection_id}').json()
+        # detection_info = self.session.get(
+        #     f'{self.base_url}/detection/{stakeholder}/{detection_id}').json()
+        detection_info = self._get(f'{self.base_url}/detection/{stakeholder}/{detection_id}').json()
         return detection_info
 
     def get_host(self, stakeholder: str, host_id: str):
@@ -98,7 +114,7 @@ class VectraClient:
         """
         # Fetch the host information from Vectra API
         host_info = {}
-        host_info = self.session.get(
+        host_info = self._get(
             f'{self.base_url}/host/{stakeholder}/{host_id}').json()
         return host_info
 
@@ -112,7 +128,7 @@ class VectraClient:
             dict: Response from Vectra API
         """
         # Add a tag to a detection
-        response = self.session.post(
+        response = self._post(
             f'{self.base_url}/detection/{stakeholder}/{detection_id}/tags', json={'tag': tag})
         return response.json()
 
@@ -125,7 +141,7 @@ class VectraClient:
             dict: Response from Vectra API
         """
         # Get tags for a detection
-        response = self.session.get(
+        response = self._get(
             f'{self.base_url}/detection/{stakeholder}/{detection_id}/tags')
         return response.json()
 
@@ -139,7 +155,7 @@ class VectraClient:
             dict: Response from Vectra API
         """
         # Add a note to a detection
-        response = self.session.post(
+        response = self._post(
             f'{self.base_url}/detection/\
                 {stakeholder}/{detection_id}/notes', json={'note': note})
         return response.json()
@@ -153,7 +169,7 @@ class VectraClient:
             dict: Response from Vectra API
         """
         # Get PCAP for a detection
-        response = self.session.get(
+        response = self._get(
             f'{self.base_url}/detection/{stakeholder}/{detection_id}/pcap')
         return response.json()
 
@@ -165,7 +181,7 @@ class VectraClient:
             dict: Response from Vectra API
         """
         # Get health information for a stakeholder
-        response = self.session.get(
+        response = self._get(
             f'{self.base_url}/health/{stakeholder}')
         return response.json()
 
@@ -177,7 +193,7 @@ class VectraClient:
             dict: Response from Vectra API
         """
         # Get threat feeds for a stakeholder
-        response = self.session.get(
+        response = self._get(
             f'{self.base_url}/threatFeeds/{stakeholder}')
         return response.json()
 
@@ -197,7 +213,7 @@ class VectraClient:
             dict: Response from Vectra API
         """
         # Add a threat feed for a stakeholder
-        response = self.session.post(
+        response = self._post(
             f'{self.base_url}/threatFeeds/{stakeholder}', json=threat_feed)
         return response.json()
 
@@ -210,7 +226,7 @@ class VectraClient:
             dict: Response from Vectra API
         """
         # Delete a threat feed for a stakeholder
-        response = self.session.delete(
+        response = self._delete(
             f'{self.base_url}/threatFeeds/{stakeholder}/{threat_feed_id}')
         return response.json()
 
@@ -237,7 +253,7 @@ class VectraClient:
                 ]
         """
         # Get users for a stakeholder
-        response = self.session.get(
+        response = self._get(
             f'{self.base_url}/users/{stakeholder}')
         return response.json()
 
@@ -253,7 +269,7 @@ class VectraClient:
             dict: Response from Vectra API
         """
         # Search for a given query
-        response = self.session.get(
+        response = self._get(
             f'{self.base_url}/search/{stakeholder}/?type={search_type}&query={query}')
         return response.json()
 
@@ -265,7 +281,7 @@ class VectraClient:
             dict: Response from Vectra API
         """
         # Refresh syslog configuration
-        response = self.session.post(
+        response = self._post(
             f'{self.base_url}/syslog/{stakeholder}/refresh')
         return response.json()
 
