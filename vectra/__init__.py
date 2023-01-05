@@ -24,6 +24,7 @@ class VectraClient:
     def __init__(self, base_url: str, credential: Union[EnvironmentCredential, \
             DefaultAzureCredential], http_adapter: HTTPAdapter = None):
         """Initialize the client object."""
+        logger.debug('Initializing VectraClient')
         self.base_url = base_url
         self.credential = credential
         self.http_adapter = http_adapter or HTTPAdapter(
