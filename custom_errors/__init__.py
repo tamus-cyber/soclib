@@ -7,7 +7,6 @@ class LoopInterupt(Exception):
     Args:
         Exception: Common base class for all exceptions.
     """
-    pass
 
 
 class DetectionNotFound(Exception):
@@ -16,4 +15,3 @@ class DetectionNotFound(Exception):
     Args:
         Exception: Common base class for all exceptions.
     """
-    pass
