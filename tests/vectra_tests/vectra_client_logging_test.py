@@ -7,10 +7,8 @@ from azure.identity import DefaultAzureCredential
 import soclib.vectra
 from soclib.vectra import VectraClient
 
-# sys.path.append('..') # Access parent directory to load .env
-# load_dotenv()
-
 BASE_URL = os.getenv('VECTRA_API_URL')
+
 
 class LogSink:  # pylint: disable=too-few-public-methods
     """Log sink for testing

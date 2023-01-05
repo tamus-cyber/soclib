@@ -4,11 +4,7 @@ import sys
 import os
 import requests
 from azure.identity import DefaultAzureCredential
-from dotenv import load_dotenv
-sys.path.append('..')  # Import parent directory
 from soclib.vectra import VectraClient
-
-load_dotenv()
 
 
 class BadCredential(DefaultAzureCredential):

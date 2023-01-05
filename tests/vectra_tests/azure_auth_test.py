@@ -3,10 +3,7 @@
 import sys
 import os
 from azure.identity import DefaultAzureCredential
-sys.path.append('..') # Import parent directory
-from dotenv import load_dotenv
 
-load_dotenv()
 
 class TestAzure:
     """ Class for testing Azure auth """

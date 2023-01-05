@@ -2,11 +2,8 @@
 # pylint: disable=wrong-import-position, import-error, too-few-public-methods, no-self-use
 import sys
 import requests
-sys.path.append('..') # Import parent directory
-from dotenv import load_dotenv
 from soclib.timeout_adapter import TimeoutHTTPAdapter
 
-load_dotenv()
 
 class TestTimeout:
     """ Class for testing TimeoutHTTPAdapter """
