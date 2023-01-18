@@ -4,6 +4,7 @@ pytest==7.2.0
 python-dotenv==0.19.2
 pylint==2.12.2
 elasticsearch[async]==8.5.2
+ecs_logging==2.0.0
 selenium==4.7.2
 beautifulsoup4==4.11.1
 pymysql==1.0.2

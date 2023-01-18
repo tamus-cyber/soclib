@@ -66,8 +66,7 @@ class VectraClient:
                 logger.error(
                     'New JWT invalid. Unable to get new, valid token.')
                 raise err
-            logger.warning(f'Bad response (HTTP {err.response.status_code}) \
-                                from Vectra API: {err.response.text}')
+            logger.warning(f'Bad response (HTTP {err.response.status_code}) from Vectra API: {err.response.text}')
             raise err
         except requests.exceptions.ConnectionError as err:
             logger.warning(f'Unable to connect to Vectra API: {err}')
