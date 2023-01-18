@@ -1,4 +1,5 @@
-from logging import Handler
+"""File for ElasticHandler class"""
+from logging import Handler  # pylint: disable=missing-module-docstring
 import elasticsearch
 import ecs_logging
 
