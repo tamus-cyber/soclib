@@ -11,6 +11,7 @@ __all__ = [
     "get_dst_ports",
     "get_target_domains",
     "get_dns_responses",
+    "get_groups",
     "add_extra_fields"
 ]
 
@@ -25,5 +26,6 @@ from .utility import (
     get_dst_ports,
     get_target_domains,
     get_dns_responses,
+    get_groups,
     add_extra_fields
 )
