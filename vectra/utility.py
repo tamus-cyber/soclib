@@ -183,6 +183,100 @@ def get_dns_responses(detection: dict) -> set:
     return dns_responses
 
 
+def get_accounts(detection: dict) -> set:
+    """Get accounts from a Vectra detection.
+
+    Args:
+        detection (dict): Vectra detection JSON dictionary.
+
+    Returns:
+        set: Set of accounts.
+    """
+    accounts = set()
+
+    # Check summary if present
+    for account in detection.get('summary', {}).get('src_accounts', []):
+        if account.get('name', None):
+            accounts.add(account['name'])
+
+    # Check grouped_details if present
+    for group in detection.get("grouped_details", []):
+        if group.get('src_account', {}).get('name', None):
+            accounts.add(group['src_account']['name'])
+
+    logger.trace(f'Accounts: {accounts}')
+    return accounts
+
+
+def get_risk_score(detection: dict) -> int:
+    """Get risk score from a Vectra detection.
+
+    Args:
+        detection (dict): Vectra detection JSON dictionary.
+
+    Returns:
+        int: Risk score.
+    """
+    threat = detection.get('threat', None)
+    certainty = detection.get('certainty', None)
+
+    # If either threat or certainty is None, return None
+    if threat is None or certainty is None:
+        logger.trace('Risk score: None')
+        return None
+
+    # Risk score is threat * certainty normalized (Braxton/Mike's request)
+    risk_score = int((threat * certainty) / 100)
+
+    logger.trace(f'Risk score: {risk_score}')
+    return risk_score
+
+
+def get_host_risk_score(detection: dict) -> int:
+    """Get risk score from a Vectra detection's host.
+
+    Args:
+        detection (dict): Vectra detection JSON dictionary.
+
+    Returns:
+        int: Host risk score.
+    """
+    threat = detection.get("src_host", {}).get('threat', None)
+    certainty = detection.get("src_host", {}).get('certainty', None)
+
+    # If either threat or certainty is None, return None
+    if threat is None or certainty is None:
+        logger.trace('Risk score: None')
+        return None
+
+    # Risk score is threat * certainty normalized (Braxton/Mike's request)
+    risk_score = int((threat * certainty) / 100)
+
+    logger.trace(f'Risk score: {risk_score}')
+    return risk_score
+
+
+def get_groups(detection: dict) -> set:
+    """Get groups the source host is in
+
+    Args:
+        detection (dict): Vectra detection JSON dictionary.
+
+    Returns:
+        set: Vectra source host groups
+    """
+    groups = set()
+    # Get from groups and src_host.groups
+    combined_groups = detection.get("src_host", {}).get("groups", []) + detection.get("groups", [])
+    for group in combined_groups:
+        group_name = group.get("name", None)
+        group_description = group.get("description", None)
+        # Concatenate name and description if both are present
+        if group_name and group_description:
+            groups.add(f"{group_name} - {group_description}")
+        return groups
+
+
 def add_extra_fields(detection: dict, extra_fields: dict) -> dict:
     """Add extra fields to a Vectra detection.
 
