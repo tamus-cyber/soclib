@@ -256,7 +256,7 @@ def get_host_risk_score(detection: dict) -> int:
     return risk_score
 
 
-def get_groups(detection: dict) -> set:
+def get_groups(detection: dict) -> list:
     """Get groups the source host is in
 
     Args:
@@ -274,7 +274,7 @@ def get_groups(detection: dict) -> set:
         # Concatenate name and description if both are present
         if group_name and group_description:
             groups.add(f"{group_name} - {group_description}")
-        return groups
+    return list(groups)
 
 
 def add_extra_fields(detection: dict, extra_fields: dict) -> dict:
