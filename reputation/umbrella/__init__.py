@@ -3,15 +3,19 @@
 
 import socket
 import requests
+from requests.adapters import HTTPAdapter
+import dns.resolver
 
 UMBRELLA_URL = "https://investigate.api.umbrella.com"
 
 class UmbrellaClient:
     """Class for interacting with the Umbrella API."""
 
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, http_adapter: HTTPAdapter = None):
         self.api_key = api_key
         self.umbrella_session = get_umbrella_session(self.api_key)
+        if http_adapter:
+            self.umbrella_session.mount("https://", http_adapter)
 
     def get_domain_category(self, domain: str) -> dict:
         """
@@ -58,7 +62,9 @@ class UmbrellaClient:
         Returns
             str: The IP address of the domain.
         """
-        ip = socket.gethostbyname(domain)
+        resolver = dns.resolver.Resolver()
+        resolver.nameservers = ["1.1.1.1", "8.8.8.8"]
+        ip = str(resolver.resolve(domain, "A")[0])
         return ip
 
     def get_asn(self, ip: str) -> dict:

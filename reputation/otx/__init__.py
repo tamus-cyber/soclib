@@ -1,6 +1,7 @@
 """Main file for AlienVault OTX API Python wrapper."""
 
 import requests
+from requests.adapters import HTTPAdapter
 
 OTX_URL = "https://otx.alienvault.com/api/v1/indicators"
 
@@ -8,9 +9,11 @@ OTX_URL = "https://otx.alienvault.com/api/v1/indicators"
 class AlienVaultOTXClient:
     """Class for interacting with the AlienVault OTX API."""
 
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, http_adapter: HTTPAdapter = None):
         self.api_key = api_key
         self.otx_session = get_otx_session(self.api_key)
+        if http_adapter:
+            self.otx_session.mount("https://", http_adapter)
 
     def get_whitelisted(self, domain: str) -> bool:
         """

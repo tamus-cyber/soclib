@@ -1,7 +1,6 @@
 # pylint: disable-all
 #!/usr/bin/env python3
 from ipaddress import ip_address
-from rich.pretty import pprint
 from soclib.reputation.otx import AlienVaultOTXClient
 from soclib.reputation.umbrella import UmbrellaClient
 from soclib.geolocation import get_location_data
@@ -29,7 +28,7 @@ def enrich(indicator: str, otx_session: AlienVaultOTXClient, umbrella_session: U
         data["ip_address"] = indicator
         # Check if IP address is private
         if ip_address(indicator).is_private:
-            return {"error": "Private IP address"}
+            return {"error": "Private IP address", "indicator": indicator}
     except ValueError:
         data["indicator_type"] = "domain"
         # Resolve the domain so we can get the ASN later
@@ -45,29 +44,37 @@ def enrich(indicator: str, otx_session: AlienVaultOTXClient, umbrella_session: U
     # Enrich the indicator
     # OTX
     print("Getting OTX data...", end=" ") if verbose else None
-    data["otx"]['whitelisted'] = otx_session.get_whitelisted(indicator)
-    data["otx"]['malware_families'] = otx_session.get_malware_families(indicator)
-    temp_pulses = otx_session.get_official_pulses(indicator)
-    # Prune the OTX pulses to only include the name, description, tags and references
-    if len(temp_pulses) > 0:
-        pulses = []
-        for pulse in temp_pulses:
-            pulses.append({
-                "name": pulse["name"],
-                "description": pulse["description"],
-                "tags": pulse["tags"],
-                "references": pulse["references"]
-            })
-        data["otx"]['official_pulses'] = pulses
-    print("Done") if verbose else None
+    try:
+        data["otx"]['whitelisted'] = otx_session.get_whitelisted(indicator)
+        data["otx"]['malware_families'] = otx_session.get_malware_families(indicator)
+        temp_pulses = otx_session.get_official_pulses(indicator)
+        # Prune the OTX pulses to only include the name, description, tags and references
+        if len(temp_pulses) > 0:
+            pulses = []
+            for pulse in temp_pulses:
+                pulses.append({
+                    "name": pulse["name"],
+                    "description": pulse["description"],
+                    "tags": pulse["tags"],
+                    "references": pulse["references"]
+                })
+            data["otx"]['official_pulses'] = pulses
+        print("Done") if verbose else None
+    except Exception as err:
+        print(f"Failed ({err})") if verbose else None
+        data["otx"] = {"error": f"Unable to get OTX data"}
 
-    print("Getting Umbrella data...", end=" ") if verbose else None
     # Umbrella
-    data["umbrella"]['categories'] = umbrella_session.get_domain_category(indicator)
-    if data["ip_address"] is not None:
-        data["umbrella"]['asn'] = umbrella_session.get_asn(data["ip_address"])
-    print("Done") if verbose else None
-
+    print("Getting Umbrella data...", end=" ") if verbose else None
+    try:
+        data["umbrella"]['categories'] = umbrella_session.get_domain_category(indicator)
+        if data["ip_address"] is not None:
+            data["umbrella"]['asn'] = umbrella_session.get_asn(data["ip_address"])
+        print("Done") if verbose else None
+    except Exception as err:
+        print(f"Failed ({err})") if verbose else None
+        data["umbrella"] = {"error": f"Unable to get Umbrella data"}
+    
     # Get geo location data (ipapi.co)
     print("Getting geolocation data...", end=" ") if verbose else None
     try:
@@ -95,6 +102,7 @@ def enrich(indicator: str, otx_session: AlienVaultOTXClient, umbrella_session: U
         except Exception:
             data["website_description"] = {"error": f"Unable to get website description"}
     print("Done") if verbose else None
+    print("Enrichment complete") if verbose else None
     return data
 
 
