@@ -10,3 +10,4 @@ beautifulsoup4==4.11.1
 pymysql==1.0.2
 pylightxl==1.60
 loguru==0.6.0
+dnspython==2.0.0
