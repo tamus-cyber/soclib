@@ -80,7 +80,7 @@ def _extract_data_from_url(link):
             result["email"] = email[0].split(":")[1]
         except IndexError:
             result["email"] = email[0]
-        except:
+        except Exception: # pylint: disable=broad-except
             result["email"] = "(No email found)"
     else:
         result["email"] = "(No email found)"
@@ -88,8 +88,7 @@ def _extract_data_from_url(link):
         result["name"] = name[0]
     if result["name"] or result["email"]:
         return result
-    else:
-        return None
+    return None
 
 
 def search_directory(search_term: str) -> list:

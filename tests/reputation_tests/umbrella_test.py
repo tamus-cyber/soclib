@@ -1,5 +1,5 @@
 """Test Umbrella API."""
-# pylint: disable=wrong-import-position, import-error, too-few-public-methods, no-self-use
+# pylint: disable=wrong-import-position, import-error, too-few-public-methods, no-self-use, line-too-long
 import os
 from ...reputation.umbrella import UmbrellaClient
 

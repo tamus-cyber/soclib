@@ -94,3 +94,39 @@ DB_PASS=
 READ_ONLY=TRUE
 DB_NAME=
 ```
+
+## TODO
+
+Here is a list of tasks that need to be done:
+
+- [ ] Remove elastic_vectra_exporter
+- [ ] Clean up everything in stakeholder folder (soc-db-utils, etc.)
+
+### Unit Testing
+
+- [X] VectraClient
+- [X] UmbrellaCleint
+- [X] OTXClient
+- [X] Azure auth
+- [X] TimeoutHTTPAdapter
+- [ ] misc.get_website_description
+- [ ] misc.linux_session_check
+- [ ] misc.search_directory
+- [ ] web.get_screenshot
+- [ ] geolocation.get_location_data
+- [ ] custom_errors
+
+
+### Linting
+
+- [X] custom_errors
+- [X] geolocation
+- [X] log_handlers
+- [X] misc
+- [X] reputation
+- [ ] stakeholder
+- [X] custom_errors
+- [ ] tests
+- [X] timeout_adapter
+- [X] vectra
+- [X] web

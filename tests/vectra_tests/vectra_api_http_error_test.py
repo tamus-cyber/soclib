@@ -15,7 +15,7 @@ class TestVectraAPIHTTPError:
 
         # Do authentication
         vectra_client = VectraClient(base_url, DefaultAzureCredential())
-        
+
         # Do get_detection with fake stakeholder and detection ID
         status_code = 200
         try:

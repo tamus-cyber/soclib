@@ -1,5 +1,5 @@
 """Test Vectra detections"""
-# pylint: disable=wrong-import-position, import-error, too-few-public-methods, no-self-use
+# pylint: disable=wrong-import-position, import-error, too-few-public-methods, no-self-use, duplicate-code
 import os
 from azure.identity import DefaultAzureCredential
 from ...vectra import VectraClient

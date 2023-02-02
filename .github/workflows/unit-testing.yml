@@ -51,7 +51,15 @@ jobs:
         pip3 install -r ./requirements.txt
     - name: Test with pytest
       run: |
-        pytest
+        pylint \
+          custom_errors \
+          geolocation \
+          misc \
+          reputation \
+          timeout_adapter \
+          log_handlers \
+          vectra \
+          web
       env:
         VECTRA_API_URL: ${{ secrets.VECTRA_API_URL }}
         TEST_STAKEHOLDER: ${{ secrets.TEST_STAKEHOLDER }}
