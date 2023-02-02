@@ -1,10 +1,9 @@
 """Test Vectra HTTP error handling"""
 # pylint: disable=wrong-import-position, import-error, too-few-public-methods, no-self-use
-import sys
 import os
 from azure.identity import DefaultAzureCredential
 import requests
-from soclib.vectra import VectraClient
+from ...vectra import VectraClient
 
 
 class TestVectraAPIHTTPError:

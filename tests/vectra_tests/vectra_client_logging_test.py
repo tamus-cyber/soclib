@@ -1,11 +1,9 @@
 """Test VectraClient logging"""
 import os
-import sys
-# from dotenv import load_dotenv
 from loguru import logger
 from azure.identity import DefaultAzureCredential
-import soclib.vectra
-from soclib.vectra import VectraClient
+from ... import vectra
+from ...vectra import VectraClient
 
 BASE_URL = os.getenv('VECTRA_API_URL')
 
@@ -35,7 +33,7 @@ class TestVectraClientLogging:
         _ = VectraClient(BASE_URL, DefaultAzureCredential())
 
         # Check that the message was not logged
-        assert not log_sink.messages
+        assert not log_sink.messages # nosec B101
 
     def test_logging_can_be_enabled(self):
         """Test that logging can be enabled."""
@@ -44,13 +42,13 @@ class TestVectraClientLogging:
         log_sink = LogSink()
         logger.add(log_sink, format="{level}", level="DEBUG")
 
-        logger.enable(soclib.vectra.__name__)
+        logger.enable(vectra.__name__)
 
         # Creating a VectraClient will log a debug message if logging is enabled
         _ = VectraClient(BASE_URL, DefaultAzureCredential())
 
         # Check that the message was logged
-        assert log_sink.messages
+        assert log_sink.messages # nosec B101
 
         # Check that the message was logged at the correct level
-        assert log_sink.messages[0].strip() == "DEBUG"
+        assert log_sink.messages[0].strip() == "DEBUG" # nosec B101
