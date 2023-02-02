@@ -262,8 +262,11 @@ class VectraClient:
             stakeholder (str): Stakeholder name
 
         Returns:
-            dict: Response from Vectra API
-                Example:
+            list: Response from Vectra API
+
+        Example:
+            .. code-block:: json
+
                 [
                     {
                         "id": 20,
@@ -278,6 +281,7 @@ class VectraClient:
                         "userType": "local"
                     }
                 ]
+            ::
         """
         # Get users for a stakeholder
         response = self._get(
