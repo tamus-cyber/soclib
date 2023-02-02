@@ -11,12 +11,12 @@ def get_website_description(domain: str, timeout=10) -> str:
     """
     Get the description of a website.
 
-    Parameters:
-    - domain (str): The domain of the website.
-    - timeout (int, optional): The timeout for the request. Defaults to 10.
+    Args:
+        domain (str): The domain of the website.
+        timeout (int, optional): The timeout for the request. Defaults to 10.
 
     Returns:
-    - str: The description of the website.
+        str: The description of the website.
     """
 
     # Make a request to the website (with a 10 second timeout)
@@ -41,7 +41,7 @@ def linux_session_check():
     that uses copy/paste functionality.
 
     Returns:
-    - None
+        None
     """
     if os.name == "posix":
         # Run echo $XDG_SESSION_TYPE and check if it's wayland
@@ -91,7 +91,14 @@ def _extract_data_from_url(link):
         return None
 
 
-def search_directory(search_term):
+def search_directory(search_term: str) -> list:
+    """Search the TAMU directory for a person.
+
+    Args:
+        search_term (str): The search term to use.
+    Returns:
+        list: A list of dictionaries containing the name, email, and link for each person found.
+    """
     search_term = search_term.lower()
     search_term = search_term.replace(" ", "+")
     url = "https://directory.tamu.edu/?branch=people&cn=" + search_term
