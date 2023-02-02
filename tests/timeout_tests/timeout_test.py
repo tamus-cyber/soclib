@@ -1,8 +1,7 @@
 """Test TimeoutHTTPAdapter"""
 # pylint: disable=wrong-import-position, import-error, too-few-public-methods, no-self-use
-import sys
 import requests
-from soclib.timeout_adapter import TimeoutHTTPAdapter
+from ...timeout_adapter import TimeoutHTTPAdapter
 
 
 class TestTimeout:

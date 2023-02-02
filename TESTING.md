@@ -46,8 +46,27 @@ tests/vectra_tests/vectra_api_auth_test.py .                                    
 
 ## List of tests
 
+### Vectra
+
 - Azure authentication
 - Vectra session creation
 - Get a detection from Vectra
 - Get host info from Vectra
 - Use TimeoutHTTPAdapter
+
+### OTX
+
+- Authentication
+- Get whitelist status of an IOC
+- Get malware families of an IOC
+- Get official pulses of an IOC
+
+### Umbrella
+
+- Authentication
+- Get domain category
+- Get ASN of an IP address
+
+### Misc
+
+- HTTP Timeout Adapter
