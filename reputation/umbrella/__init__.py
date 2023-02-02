@@ -12,6 +12,14 @@ class UmbrellaClient:
     """Class for interacting with the Umbrella API."""
 
     def __init__(self, api_key: str, http_adapter: HTTPAdapter = None):
+        """Initialize the UmbrellaClient.
+
+        Args:
+            api_key (str): The Umbrella API key to use for the session.
+            http_adapter (HTTPAdapter, optional): The HTTPAdapter to use for
+                the session. Defaults to None.
+        """
+
         self.api_key = api_key
         self.umbrella_session = get_umbrella_session(self.api_key)
         if http_adapter:
@@ -76,11 +84,11 @@ class UmbrellaClient:
 
         Returns:
             dict: The ASN of the IP address in the following format:
-                'asn': The ASN of the IP address (str)
-                'cidr': The CIDR of the IP address (str)
-                'ir': The IR of the IP address (str)
-                'description': The description of the IP address (str)
-                'creation_date': The date the IP address was created (str)
+                - 'asn': The ASN of the IP address (str)
+                - 'cidr': The CIDR of the IP address (str)
+                - 'ir': The IR of the IP address (str)
+                - 'description': The description of the IP address (str)
+                - 'creation_date': The date the IP address was created (str)
         """
         url = f"{UMBRELLA_URL}/bgp_routes/ip/{ip}/as_for_ip.json"
         response = self.umbrella_session.get(url)

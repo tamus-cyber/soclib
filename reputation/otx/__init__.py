@@ -10,6 +10,13 @@ class AlienVaultOTXClient:
     """Class for interacting with the AlienVault OTX API."""
 
     def __init__(self, api_key: str, http_adapter: HTTPAdapter = None):
+        """Initialize the AlienVaultOTXClient.
+
+        Args:
+            api_key (str): The OTX API key to use for the session.
+            http_adapter (HTTPAdapter, optional): The HTTPAdapter to use for
+                the session. Defaults to None.
+        """
         self.api_key = api_key
         self.otx_session = get_otx_session(self.api_key)
         if http_adapter:

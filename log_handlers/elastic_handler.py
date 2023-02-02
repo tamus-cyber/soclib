@@ -4,8 +4,8 @@ from elasticsearch import Elasticsearch
 import ecs_logging
 
 class ElasticHandler(Handler):
-    """Subclass of logging.Handler used to send logs to Elastic in ECS format
-    """
+    """Subclass of logging.Handler used to send logs to Elastic in ECS format"""
+    
     def __init__(self, index_name: str, elastic_client: Elasticsearch = None,
                     username: str = None, password: str = None, verify_certs: bool = True,
                     host: str = None, cloud_id: str = None):
@@ -18,12 +18,13 @@ class ElasticHandler(Handler):
 
         Args:
             index_name (str): Name of the index to send logs to
-            elastic_client (Elasticsearch): Elasticsearch client to use (optional)
-            username (str): Username to use for authentication (optional)
-            password (str): Password to use for authentication (optional)
-            verify_certs (bool): If True, verify SSL certificates (optional)
-            host (str): Host to connect to (optional)
-            cloud_id (str): Cloud ID to connect to (optional)
+            elastic_client (Elasticsearch, optional): Elasticsearch client to use
+            username (str, optional): Username to use for authentication
+            password (str, optional): Password to use for authentication
+            verify_certs (bool, optional): If True, verify SSL certificates
+            host (str, optional): Host to connect to
+            cloud_id (str, optional): Cloud ID to connect to
+        
         """
         super().__init__()
 
