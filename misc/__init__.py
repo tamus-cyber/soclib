@@ -1,11 +1,12 @@
 """Miscellaneous functions for soclib"""
 import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import requests
 from bs4 import BeautifulSoup
-from lxml import html
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from lxml import html # nosec B410
 # Ignore SSL warnings
-requests.packages.urllib3.disable_warnings()
+import urllib3
+urllib3.disable_warnings(category = urllib3.exceptions.InsecureRequestWarning)
 
 def get_website_description(domain: str, timeout=10) -> str:
     """
