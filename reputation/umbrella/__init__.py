@@ -1,7 +1,6 @@
 # pylint: disable=broad-except, invalid-name, no-self-use
 """Main file for Umbrella API Python wrapper."""
 
-import socket
 import requests
 from requests.adapters import HTTPAdapter
 import dns.resolver
@@ -21,7 +20,11 @@ class UmbrellaClient:
         """
 
         self.api_key = api_key
-        self.umbrella_session = get_umbrella_session(self.api_key)
+        self.umbrella_session = requests.Session()
+        self.umbrella_session.headers.update({
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        })
         if http_adapter:
             self.umbrella_session.mount("https://", http_adapter)
 
@@ -34,8 +37,8 @@ class UmbrellaClient:
 
         Returns:
             dict: The category of the domain in the following format:
-                'categories': List of categories (list)
-                'status': One of the following: [malicious, benign, unknown] (str)
+                - 'categories': List of categories (list)
+                - 'status': One of the following: [malicious, benign, unknown] (str)
         """
         url = f"{UMBRELLA_URL}/domains/categorization/{domain}?showLabels=true"
         response = self.umbrella_session.get(url)
@@ -95,20 +98,3 @@ class UmbrellaClient:
         if response.status_code == 200:
             return response.json()
         return None
-
-def get_umbrella_session(api_key: str) -> requests.sessions.Session:
-    """ Create a session for interacting with the Umbrella API.
-
-    Args:
-        api_key (str): The API key to use for the session.
-
-    Returns:
-        requests.sessions.Session: The session to use for interacting with the Umbrella API.
-    """
-    session = requests.Session()
-    session.headers.update({
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    })
-
-    return session

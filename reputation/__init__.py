@@ -1,10 +1,10 @@
 # pylint: disable-all
 #!/usr/bin/env python3
 from ipaddress import ip_address
-from soclib.reputation.otx import AlienVaultOTXClient
-from soclib.reputation.umbrella import UmbrellaClient
-from soclib.geolocation import get_location_data
-from soclib.misc import get_website_description
+from .otx import AlienVaultOTXClient
+from .umbrella import UmbrellaClient
+from ..geolocation import get_location_data
+from ..misc import get_website_description
 
 def enrich(indicator: str, otx_session: AlienVaultOTXClient, umbrella_session: UmbrellaClient, verbose=False) -> dict:
     """Manually enrich a single indicator

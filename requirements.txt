@@ -12,3 +12,4 @@ pylightxl==1.60
 loguru==0.6.0
 dnspython==2.0.0
 slack-sdk==3.17.2
+urllib3==1.26.11

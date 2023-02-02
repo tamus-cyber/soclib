@@ -18,7 +18,10 @@ class AlienVaultOTXClient:
                 the session. Defaults to None.
         """
         self.api_key = api_key
-        self.otx_session = get_otx_session(self.api_key)
+        self.otx_session = requests.Session()
+        self.otx_session.headers.update({
+            "X-OTX-API-KEY": api_key
+        })
         if http_adapter:
             self.otx_session.mount("https://", http_adapter)
 
@@ -80,18 +83,3 @@ class AlienVaultOTXClient:
                 malware_families.append(malware)
             return malware_families
         return []
-
-def get_otx_session(api_key: str) -> requests.sessions.Session:
-    """ Create session
-
-    Args:
-        api_key (str): The OTX API key to use for the session.
-
-    Returns:
-        requests.sessions.Session: The session to use for requests.
-    """
-    session = requests.Session()
-    session.headers.update({
-        "X-OTX-API-KEY": api_key
-    })
-    return session
