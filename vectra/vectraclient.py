@@ -43,7 +43,7 @@ class VectraClient:
 
     def _request(self, method: str, url: str, **kwargs):
         """Wrapper for HTTP requests to handle exceptions and logging
-        
+
         Args:
             method (str): HTTP method to use
             url (str): URL to make request to
@@ -94,11 +94,11 @@ class VectraClient:
 
     def get_detection(self, stakeholder: str, detection_id: str):
         """ Get detection information from Vectra for a given detection ID
-        
+
         Args:
             stakeholder (str): Stakeholder name
             detection_id (str): Detection ID
-        
+
         Returns:
             dict: Detection information
         """
@@ -113,11 +113,11 @@ class VectraClient:
 
     def get_host(self, stakeholder: str, host_id: str):
         """ Get host information from Vectra for a given host ID
-        
+
         Args:
             stakeholder (str): Stakeholder name
             host_id (str): Host ID
-        
+
         Returns:
             dict: Host information
         """
@@ -129,12 +129,12 @@ class VectraClient:
 
     def add_detection_tag(self, stakeholder: str, detection_id: str, tag: str):
         """ Add a tag to a detection
-        
+
         Args:
             stakeholder (str): Stakeholder name
             detection_id (str): Detection ID
             tag (str): Tag to add
-        
+
         Returns:
             dict: Response from Vectra API
         """
@@ -145,11 +145,11 @@ class VectraClient:
 
     def get_detection_tag(self, stakeholder: str, detection_id: str):
         """ Get tags for a detection
-        
+
         Args:
             stakeholder (str): Stakeholder name
             detection_id (str): Detection ID
-        
+
         Returns:
             dict: Response from Vectra API
         """
@@ -160,12 +160,12 @@ class VectraClient:
 
     def add_detection_note(self, stakeholder: str, detection_id: str, note: str):
         """ Add a note to a detection
-        
+
         Args:
             stakeholder (str): Stakeholder name
             detection_id (str): Detection ID
             note (str): Note to add
-        
+
         Returns:
             dict: Response from Vectra API
         """
@@ -177,11 +177,11 @@ class VectraClient:
 
     def get_pcap(self, stakeholder: str, detection_id: str):
         """ Get PCAP for a detection
-        
+
         Args:
             stakeholder (str): Stakeholder name
             detection_id (str): Detection ID
-        
+
         Returns:
             dict: Response from Vectra API
         """
@@ -192,10 +192,10 @@ class VectraClient:
 
     def get_health(self, stakeholder: str):
         """ Get health information for a stakeholder
-        
+
         Args:
             stakeholder (str): Stakeholder name
-        
+
         Returns:
             dict: Response from Vectra API
         """
@@ -206,10 +206,10 @@ class VectraClient:
 
     def get_threat_feeds(self, stakeholder: str):
         """ Get threat feeds for a stakeholder
-        
+
         Args:
             stakeholder (str): Stakeholder name
-        
+
         Returns:
             dict: Response from Vectra API
         """
@@ -220,7 +220,7 @@ class VectraClient:
 
     def add_threat_feed(self, stakeholder: str, threat_feed: dict):
         """ Add a threat feed for a stakeholder
-        
+
         Args:
             stakeholder (str): Stakeholder name
             threat_feed (dict): Threat feed to add
@@ -231,7 +231,7 @@ class VectraClient:
                     "indicator_type": "Watchlist",
                     "category": "cnc"
                 }
-        
+
         Returns:
             dict: Response from Vectra API
         """
@@ -242,11 +242,11 @@ class VectraClient:
 
     def delete_threat_feed(self, stakeholder: str, threat_feed_id: str):
         """ Delete a threat feed for a stakeholder
-        
+
         Args:
             stakeholder (str): Stakeholder name
             threat_feed_id (str): Threat feed ID
-        
+
         Returns:
             dict: Response from Vectra API
         """
@@ -257,10 +257,10 @@ class VectraClient:
 
     def get_users(self, stakeholder: str):
         """ Get users for a stakeholder
-        
+
         Args:
             stakeholder (str): Stakeholder name
-        
+
         Returns:
             dict: Response from Vectra API
                 Example:
@@ -286,14 +286,14 @@ class VectraClient:
 
     def search(self, stakeholder: str, search_type: str, query: str):
         """ Search for a given query
-        
+
         Args:
             stakeholder (str): Stakeholder name
             search_type (str): Type of search to perform
                 Options: accounts, hosts, detections
             query (str): Query to search for
                 Example: "detection.src_ip: ...
-        
+
         Returns:
             dict: Response from Vectra API
         """
@@ -304,10 +304,10 @@ class VectraClient:
 
     def refresh_syslog(self, stakeholder: str):
         """ Refresh syslog configuration
-        
+
         Args:
             stakeholder (str): Stakeholder name
-        
+
         Returns:
             dict: Response from Vectra API
         """
