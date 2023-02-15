@@ -1,10 +1,9 @@
 """Test Vectra reauth failure handling"""
 # pylint: disable=wrong-import-position, import-error, too-few-public-methods, no-self-use
-import sys
 import os
 import requests
 from azure.identity import DefaultAzureCredential
-from soclib.vectra import VectraClient
+from ...vectra import VectraClient
 
 
 class BadCredential(DefaultAzureCredential):

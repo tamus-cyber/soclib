@@ -17,7 +17,7 @@ jobs:
           ${{ secrets.SSH_KEY_SOC_DB_UTILS }}
         submodules: recursive
     - name: Set up Python 3.10.8
-      uses: actions/setup-python@v4.0.0
+      uses: actions/setup-python@v4
       with:
         python-version: 3.10.8
     - name: Install dependencies
@@ -43,7 +43,7 @@ jobs:
           ${{ secrets.SSH_KEY_SOC_DB_UTILS }}
         submodules: recursive
     - name: Set up Python 3.10.8
-      uses: actions/setup-python@v4.0.0
+      uses: actions/setup-python@v4
       with:
         python-version: 3.10.8
     - name: Install dependencies
@@ -51,7 +51,15 @@ jobs:
         pip3 install -r ./requirements.txt
     - name: Test with pytest
       run: |
-        pytest
+        pylint \
+          custom_errors \
+          geolocation \
+          misc \
+          reputation \
+          timeout_adapter \
+          log_handlers \
+          vectra \
+          web
       env:
         VECTRA_API_URL: ${{ secrets.VECTRA_API_URL }}
         TEST_STAKEHOLDER: ${{ secrets.TEST_STAKEHOLDER }}
@@ -60,4 +68,5 @@ jobs:
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
         AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
         AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        UMBRELLA_API_KEY: ${{ secrets.UMBRELLA_API_KEY }}
 

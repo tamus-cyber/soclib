@@ -1,7 +1,5 @@
 """Test Azure authentication"""
 # pylint: disable=wrong-import-position, import-error, too-few-public-methods, no-self-use
-import sys
-import os
 from azure.identity import DefaultAzureCredential
 
 

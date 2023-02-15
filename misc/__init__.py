@@ -1,22 +1,23 @@
 """Miscellaneous functions for soclib"""
 import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import requests
 from bs4 import BeautifulSoup
-from lxml import html
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from lxml import html # nosec B410
 # Ignore SSL warnings
-requests.packages.urllib3.disable_warnings()
+import urllib3
+urllib3.disable_warnings(category = urllib3.exceptions.InsecureRequestWarning)
 
 def get_website_description(domain: str, timeout=10) -> str:
     """
     Get the description of a website.
 
-    Parameters:
-    - domain (str): The domain of the website.
-    - timeout (int, optional): The timeout for the request. Defaults to 10.
+    Args:
+        domain (str): The domain of the website.
+        timeout (int, optional): The timeout for the request. Defaults to 10.
 
     Returns:
-    - str: The description of the website.
+        str: The description of the website.
     """
 
     # Make a request to the website (with a 10 second timeout)
@@ -41,7 +42,7 @@ def linux_session_check():
     that uses copy/paste functionality.
 
     Returns:
-    - None
+        None
     """
     if os.name == "posix":
         # Run echo $XDG_SESSION_TYPE and check if it's wayland
@@ -79,7 +80,7 @@ def _extract_data_from_url(link):
             result["email"] = email[0].split(":")[1]
         except IndexError:
             result["email"] = email[0]
-        except:
+        except Exception: # pylint: disable=broad-except
             result["email"] = "(No email found)"
     else:
         result["email"] = "(No email found)"
@@ -87,11 +88,17 @@ def _extract_data_from_url(link):
         result["name"] = name[0]
     if result["name"] or result["email"]:
         return result
-    else:
-        return None
+    return None
 
 
-def search_directory(search_term):
+def search_directory(search_term: str) -> list:
+    """Search the TAMU directory for a person.
+
+    Args:
+        search_term (str): The search term to use.
+    Returns:
+        list: A list of dictionaries containing the name, email, and link for each person found.
+    """
     search_term = search_term.lower()
     search_term = search_term.replace(" ", "+")
     url = "https://directory.tamu.edu/?branch=people&cn=" + search_term
