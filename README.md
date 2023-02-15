@@ -14,7 +14,6 @@ This collection of libraries is designed to be used in various SOC applications.
 ### ![Vectra logo](./vectra_logo.png) Vectra API libraries
 
 - Vectra client for [vectra-api](https://github.com/tamus-cyber/vectra-api)
-- ElasticVectra for sending logs to ELK
 
 ### 🔧 SOC Tools
 
@@ -99,7 +98,6 @@ DB_NAME=
 
 Here is a list of tasks that need to be done:
 
-- [ ] Remove elastic_vectra_exporter
 - [ ] Clean up everything in stakeholder folder (soc-db-utils, etc.)
 
 ### Unit Testing

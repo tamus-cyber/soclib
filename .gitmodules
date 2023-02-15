@@ -1,6 +1,3 @@
 [submodule "stakeholder/soc_db_utils"]
 	path = stakeholder/soc_db_utils
 	url = ../soc-db-utils
-[submodule "elastic_vectra_exporter"]
-	path = elastic_vectra_exporter
-	url = ../elastic-vectra-exporter
