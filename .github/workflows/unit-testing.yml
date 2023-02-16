@@ -60,6 +60,7 @@ jobs:
           log_handlers \
           vectra \
           web
+        pytest -v
       env:
         VECTRA_API_URL: ${{ secrets.VECTRA_API_URL }}
         TEST_STAKEHOLDER: ${{ secrets.TEST_STAKEHOLDER }}
