@@ -34,13 +34,13 @@ class ElasticHandler(Handler):
             self.elastic_client = elastic_client
         # If cloud_id is set, use it to make a new client
         elif cloud_id:
-            self.client = Elasticsearch(
+            self.elastic_client = Elasticsearch(
                 http_auth=(username, password),
                 cloud_id=cloud_id
             )
         # Otherwise, use host to make a new client
         else:
-            self.client = Elasticsearch(
+            self.elastic_client = Elasticsearch(
                 basic_auth=(username, password),
                 verify_certs=verify_certs,
                 hosts=[host]
