@@ -98,3 +98,23 @@ class UmbrellaClient:
         if response.status_code == 200:
             return response.json()
         return None
+
+    def get_passive_dns(self, ip: str) -> dict:
+        """
+        Get the passive DNS of an IP address.
+
+        Args:
+            ip (str): The IP address to get the passive DNS of.
+
+        Returns:
+            dict: The passive DNS of the IP address in the following format:
+                - 'domain': The domain of the passive DNS record (str)
+                - 'firstSeen': The date the passive DNS record was first seen (str)
+                - 'lastSeen': The date the passive DNS record was last seen (str)
+                - 'source': The source of the passive DNS record (str)
+        """
+        url = f"{UMBRELLA_URL}/pdns/ip/{ip}"
+        response = self.umbrella_session.get(url)
+        if response.status_code == 200:
+            return response.json()
+        return None
