@@ -31,14 +31,9 @@ def enrich(indicator: str, otx_session: AlienVaultOTXClient, umbrella_session: U
             return {"error": "Private IP address", "indicator": indicator}
     except ValueError:
         data["indicator_type"] = "domain"
-        # Resolve the domain so we can get the ASN later
-        try:
-            print(f"Resolving {indicator}...", end=" ") if verbose else None
-            data["ip_address"] = umbrella_session.resolve_domain(indicator)
-            print(f"Done ({data['ip_address']})") if verbose else None
-        except Exception as err:
-            data["ip_address"] = None
-            print(f"Failed ({err})") if verbose else None
+        # We cannot do a DNS lookup because of new TLP: RED
+        # and PAPP: RED indicators
+        data["ip_address"] = None
 
     
     # Enrich the indicator
@@ -70,6 +65,14 @@ def enrich(indicator: str, otx_session: AlienVaultOTXClient, umbrella_session: U
         data["umbrella"]['categories'] = umbrella_session.get_domain_category(indicator)
         if data["ip_address"] is not None:
             data["umbrella"]['asn'] = umbrella_session.get_asn(data["ip_address"])
+            passive_dns = umbrella_session.get_passive_dns(data["ip_address"])
+            dns_records = []
+            for record in passive_dns.get("records", []):
+                domain = record.get("rr")
+                if domain is not None:
+                    dns_records.append(domain)
+            data["umbrella"]['passive_dns'] = dns_records
+
         print("Done") if verbose else None
     except Exception as err:
         print(f"Failed ({err})") if verbose else None
@@ -94,14 +97,6 @@ def enrich(indicator: str, otx_session: AlienVaultOTXClient, umbrella_session: U
         data["geolocation"] = {"error": f"Unable to get geolocation data"}
     print("Done") if verbose else None
 
-    # Get website description (meta description)
-    print("Getting website description...", end=" ") if verbose else None
-    if data["indicator_type"] == "domain":
-        try:
-            data["website_description"] = get_website_description(indicator)
-        except Exception:
-            data["website_description"] = {"error": f"Unable to get website description"}
-    print("Done") if verbose else None
     print("Enrichment complete") if verbose else None
     return data
 
