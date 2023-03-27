@@ -17,6 +17,30 @@ def enrich(indicator: str, otx_session: AlienVaultOTXClient, umbrella_session: U
 
     Returns:
         dict: The enriched indicator data
+
+    Example output:
+
+        .. code-block:: json
+
+            {
+                "indicator": "google.com",
+                "indicator_type": "domain",
+                "ip_address": null,
+                "otx": {
+                    "whitelisted": true,
+                    "malware_families": []
+                },
+                "umbrella": {
+                    "categories": {
+                        "status": "benign",
+                        "categories": [
+                            "Search Engines",
+                            "Search Engines and Portals"
+                        ]
+                    }
+                }
+            }
+        ::
     """
     # Initialize the data dictionary
     data = {"indicator": indicator, "indicator_type": None, "ip_address": None, "otx": {}, "umbrella": {}}
