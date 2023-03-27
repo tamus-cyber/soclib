@@ -224,13 +224,17 @@ class VectraClient:
         Args:
             stakeholder (str): Stakeholder name
             threat_feed (dict): Threat feed to add
+
                 Example:
-                {
-                    "name": "SOC-INT-Threat-Feed-1",
-                    "certainty": "High",
-                    "indicator_type": "Watchlist",
-                    "category": "cnc"
-                }
+                    .. code-block:: json
+
+                        {
+                            "name": "SOC-INT-Threat-Feed-1",
+                            "certainty": "High",
+                            "indicator_type": "Watchlist",
+                            "category": "cnc"
+                        }
+                    ::
 
         Returns:
             dict: Response from Vectra API
