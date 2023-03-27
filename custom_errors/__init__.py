@@ -1,7 +1,8 @@
-"""(Deprecated) custom_errors is a module that contains custom exceptions for the Vectra API wrapper.
+"""(Deprecated) custom_errors is a module that contains \
+custom exceptions for the Vectra API wrapper.
 
-This module is deprecated and will be removed in a future release. 
-It was used for the Vectra API wrapper which is no longer supported. 
+This module is deprecated and will be removed in a future release.
+It was used for the Vectra API wrapper which is no longer supported.
 Instead, everything has been moved to the VectraClient class in the vectra module.
 
 """
