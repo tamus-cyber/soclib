@@ -25,6 +25,11 @@ def get_website_description(domain: str, timeout=10) -> str:
 
     Returns:
         str: The description of the website.
+
+    Example:
+        >>> get_website_description('google.com')
+        'Search the world's information, including webpages, images, videos and more. \
+Google has many special features to help you find exactly what you're looking for.'
     """
 
     # Make a request to the website (with a 10 second timeout)
