@@ -77,7 +77,7 @@ def linux_session_check():
 
 
 def __extract_data_from_url(link):
-    page = requests.get(link, verify=False) # nosec
+    page = requests.get(link, verify=False, timeout=5) # nosec
     tree = html.fromstring(page.content)
     # Find email and add to list
     # Example: href="mailto:
