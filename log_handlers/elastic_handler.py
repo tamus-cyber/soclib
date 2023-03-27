@@ -5,28 +5,45 @@ from elasticsearch import Elasticsearch
 import ecs_logging
 
 class ElasticHandler(Handler):
-    """Subclass of logging.Handler used to send logs to Elastic in ECS format"""
+    """A logging handler that sends messages to Elastic in ECS format
+
+    To initialize, provide index_name and one of the following:
+    - An Elasticsearch client object
+    - A cloud_id, username, and password
+    - A host, username, and password
+
+    Args:
+        index_name (str): Name of the index to send logs to
+        elastic_client (Elasticsearch, optional): Elasticsearch client to use
+        username (str, optional): Username to use for authentication
+        password (str, optional): Password to use for authentication
+        verify_certs (bool, optional): If True, verify SSL certificates
+        host (str, optional): Host to connect to
+        cloud_id (str, optional): Cloud ID to connect to
+
+    Example usage:
+        .. code-block:: python
+
+            import os
+            from loguru import logger
+            from log_handlers import ElasticHandler
+
+            # Create a ElasticHandler and add it to the logger
+            index_name = 'logs'
+            cloud_id=os.getenv('ELASTIC_CLOUD_ID')
+            username=os.getenv('ELASTIC_USERNAME')
+            password=os.getenv('ELASTIC_PASSWORD')
+
+            elastic_handler = ElasticHandler(index=logs, cloud_id=cloud_id, \
+username=username, password=password)
+            logger.add(elastic_handler, level="DEBUG", backtrace=False, diagnose=False)
+        ::
+    """
 
     def __init__(self, index_name: str, elastic_client: Elasticsearch = None,
                     username: str = None, password: str = None, verify_certs: bool = True,
                     host: str = None, cloud_id: str = None):
-        """Initialize ElasticHandler class
-
-        To initialize, provide index_name and one of the following:
-            - An Elasticsearch client object
-            - A cloud_id, username, and password
-            - A host, username, and password
-
-        Args:
-            index_name (str): Name of the index to send logs to
-            elastic_client (Elasticsearch, optional): Elasticsearch client to use
-            username (str, optional): Username to use for authentication
-            password (str, optional): Password to use for authentication
-            verify_certs (bool, optional): If True, verify SSL certificates
-            host (str, optional): Host to connect to
-            cloud_id (str, optional): Cloud ID to connect to
-
-        """
+        """Initialize ElasticHandler class"""
         super().__init__()
 
         # If an elastic_client is provided, use it. We don't need to make a new client

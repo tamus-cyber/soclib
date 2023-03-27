@@ -11,7 +11,7 @@ logger.disable(__name__)
 
 
 class VectraClient:
-    """ Client for interacting with SOC Vectra API"""
+    """ Client for interacting with the TAMUS CyberOps Vectra Relay"""
 
     def __init__(self, base_url: str, credential: EnvironmentCredential | DefaultAzureCredential,
                     http_adapter: HTTPAdapter = None):
@@ -101,6 +101,39 @@ class VectraClient:
 
         Returns:
             dict: Detection information
+
+        Example response:
+            .. code-block:: json
+
+                {
+                    "assigned_date": null,
+                    "assigned_to": null,
+                    "c_score": 10,
+                    "campaign_summaries": [],
+                    "category": "EXFILTRATION",
+                    "certainty": 10,
+                    "created_timestamp": "2023-03-20T16:28:53Z",
+                    "custom_detection": null,
+                    "description": null,
+                    "detection": "Smash and Grab",
+                    "detection_category": "EXFILTRATION",
+                    "detection_type": "Smash and Grab",
+                    "detection_url": "https://vectrasensor.com/api/v2.2/detections/123456",
+                    "filtered_by_ai": false,
+                    "filtered_by_rule": false,
+                    "filtered_by_user": false,
+                    "first_timestamp": "2023-03-20T15:45:12Z",
+                    "grouped_details": [
+                        {
+                            "bytes_sent": 178688955,
+                            "dst_ips": [
+                                "1.1.1.1"
+                            ],
+                        }
+                    ]
+                    "...": "..."
+                }
+            ::
         """
         # Fetch the detection information from Vectra API
         # Init an empty dictionary for when we handle account based detections in the future.
@@ -224,13 +257,17 @@ class VectraClient:
         Args:
             stakeholder (str): Stakeholder name
             threat_feed (dict): Threat feed to add
+
                 Example:
-                {
-                    "name": "SOC-INT-Threat-Feed-1",
-                    "certainty": "High",
-                    "indicator_type": "Watchlist",
-                    "category": "cnc"
-                }
+                    .. code-block:: json
+
+                        {
+                            "name": "SOC-INT-Threat-Feed-1",
+                            "certainty": "High",
+                            "indicator_type": "Watchlist",
+                            "category": "cnc"
+                        }
+                    ::
 
         Returns:
             dict: Response from Vectra API

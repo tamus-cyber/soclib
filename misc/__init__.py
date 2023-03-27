@@ -1,4 +1,11 @@
-"""Miscellaneous functions for soclib"""
+"""Miscellaneous functions for soclib
+
+Functions:
+
+- get_website_description: Get the description of a website.
+- linux_session_check: Check if we're on Wayland or X11 and print a message if we're not
+- search_directory: Search the TAMU directory for a person.
+"""
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import requests
@@ -18,6 +25,11 @@ def get_website_description(domain: str, timeout=10) -> str:
 
     Returns:
         str: The description of the website.
+
+    Example:
+        >>> get_website_description('google.com')
+        'Search the world's information, including webpages, images, videos and more. \
+Google has many special features to help you find exactly what you're looking for.'
     """
 
     # Make a request to the website (with a 10 second timeout)
@@ -64,8 +76,8 @@ def linux_session_check():
             return
 
 
-def _extract_data_from_url(link):
-    page = requests.get(link, verify=False) # nosec
+def __extract_data_from_url(link):
+    page = requests.get(link, verify=False, timeout=5) # nosec
     tree = html.fromstring(page.content)
     # Find email and add to list
     # Example: href="mailto:
@@ -104,7 +116,7 @@ def search_directory(search_term: str) -> list:
     url = "https://directory.tamu.edu/?branch=people&cn=" + search_term
 
     # Get HTML from URL
-    page = requests.get(url, verify=False) # nosec
+    page = requests.get(url, verify=False, timeout=5) # nosec
     tree = html.fromstring(page.content)
 
     # Find all anchor links with the href containing /people/
@@ -121,7 +133,7 @@ def search_directory(search_term: str) -> list:
     threads = []
     with ThreadPoolExecutor(max_workers=50) as executor:
         for link in links:
-            threads.append(executor.submit(_extract_data_from_url, link))
+            threads.append(executor.submit(__extract_data_from_url, link))
         for task in as_completed(threads):
             results.append(task.result())
     return results

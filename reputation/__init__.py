@@ -17,6 +17,30 @@ def enrich(indicator: str, otx_session: AlienVaultOTXClient, umbrella_session: U
 
     Returns:
         dict: The enriched indicator data
+
+    Example output:
+
+        .. code-block:: json
+
+            {
+                "indicator": "google.com",
+                "indicator_type": "domain",
+                "ip_address": null,
+                "otx": {
+                    "whitelisted": true,
+                    "malware_families": []
+                },
+                "umbrella": {
+                    "categories": {
+                        "status": "benign",
+                        "categories": [
+                            "Search Engines",
+                            "Search Engines and Portals"
+                        ]
+                    }
+                }
+            }
+        ::
     """
     # Initialize the data dictionary
     data = {"indicator": indicator, "indicator_type": None, "ip_address": None, "otx": {}, "umbrella": {}}
@@ -134,6 +158,19 @@ def get_quick_links(indicator: str) -> dict:
 
     Returns:
         dict: The quick links
+
+    Example:
+        .. code-block:: json
+
+            {
+                "VirusTotal": "https://www.virustotal.com/gui/search/google.com",
+                "AlienVault OTX": "https://otx.alienvault.com/indicator/domain/google.com",
+                "Umbrella": "https://dashboard.umbrella.com/o/2465322/#/investigate/domain-view/name/google.com/view",
+                "Shodan": "https://www.shodan.io/search?query=google.com",
+                "Twitter": "https://twitter.com/search?q=google.com",
+                "Google": "https://www.google.com/search?q=google.com"
+            }
+        ::
     """
 
     try:
