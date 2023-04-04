@@ -4,7 +4,6 @@ import os
 import ipaddress
 import pylightxl as xl
 from soclib.stakeholder.soc_db_utils import ip_lookup_db
-from rich.progress import Progress
 import re
 
 def init_stakeholder_ip_data(file_path):
